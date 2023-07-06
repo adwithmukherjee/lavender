@@ -1,9 +1,6 @@
 const BaseRoute = require("../../framework/BaseRoute");
 
 class GetUsersRoute extends BaseRoute {
-  get routeName() {
-    return "/users";
-  }
 
   handler(request, response) {
     return response
