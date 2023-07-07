@@ -1,8 +1,7 @@
 const BaseRoute = require("../../framework/BaseRoute");
 const Response = require("../../framework/Response");
 //----------- end imports ---------------
-class LoginRoute extends BaseRoute {
-
+class GetHealthRoute extends BaseRoute {
     handler(request) {
         console.log(request.body);
         return Response.ok();
@@ -10,5 +9,5 @@ class LoginRoute extends BaseRoute {
 }
 
 module.exports = {
-    post: LoginRoute,
+    get: GetHealthRoute,
 };

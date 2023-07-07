@@ -1,16 +1,14 @@
 const BaseRoute = require("../../../framework/BaseRoute");
-
-
+const Response = require("../../../framework/Response");
+//----------- end imports ---------------
 class GetUserByIdRoute extends BaseRoute {
 
-  handler(request, response) {
-    console.log(request.params)
-    return response
-      .status(200)
-      .json({ message: "implement get user route", status: "health" });
-  }
+    handler(request) {
+        console.log(request.params);
+        return Response.ok();
+    }
 }
 
 module.exports = {
-  get: GetUserByIdRoute
+    get: GetUserByIdRoute,
 };

@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "target": "es2019",
+      "declaration": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "strictFunctionTypes": true,
+      "noImplicitThis": true,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": true,
+      "moduleResolution": "node",
+      "downlevelIteration": true,
+      "noEmit": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "useDefineForClassFields": true,
+      "resolveJsonModule": true,
+      "allowJs": true,
+    },
+    "exclude": [
+      "node_modules",
+      "cdk.out",
+      "cdk/node_modules",
+      "cdk/cdk.out",
+    ]
+}
