@@ -6,7 +6,7 @@ const AuthType = require("../../framework/AuthType");
 class GetHealthRoute extends BaseRoute {
 
     get authType() {
-        return AuthType.USER;
+        return AuthType.NONE;
     }
 
     get validator() {
