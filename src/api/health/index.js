@@ -27,5 +27,5 @@ class GetHealthRoute extends BaseRoute {
 }
 
 module.exports = {
-    post: GetHealthRoute,
+    get: GetHealthRoute,
 };
