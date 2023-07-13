@@ -79,6 +79,8 @@ class CdkStack extends cdk.Stack {
         sortKey: { name: "GSI1SK", type: dynamodb.AttributeType.STRING },
         projectionType: dynamodb.ProjectionType.KEYS_ONLY
     })
+
+    dynamoTable.grantReadWriteData(testLambda)
         
   }
 }
