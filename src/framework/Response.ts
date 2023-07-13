@@ -6,10 +6,10 @@ const ContentType = require("./ContentType");
 class Response {
     constructor() {}
 
-    /**
-     * 
-     * @returns {Response}
-     */
+    status
+    payload
+    contentType
+
     static ok() {
         return new Response()
         .setContentType(ContentType.JSON)
@@ -17,11 +17,6 @@ class Response {
         .setMessage("ok");
     }
 
-    /**
-     * 
-     * @param {Error} e 
-     * @returns 
-     */
     static error(e) {
         // TODO: better Error handling
         return new Response()
@@ -30,9 +25,6 @@ class Response {
         .setMessage(`ERROR: ${e.message}`);
     }
 
-    /**
-   * @param {StatusCodes} status
-   */
     setStatus(status) {
         this.status = status;
         return this;
@@ -65,4 +57,4 @@ class Response {
     }
 }
 
-module.exports = Response;
+export default Response

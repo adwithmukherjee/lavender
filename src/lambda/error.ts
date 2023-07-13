@@ -1,6 +1,6 @@
-import LambdaApi from "lambda-api"
+import LambdaApi from "lambda-api";
 
-const api = LambdaApi()
+const api = LambdaApi();
 
 api.get("*", () => {
   return { status: "error" };

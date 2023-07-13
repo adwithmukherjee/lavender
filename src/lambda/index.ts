@@ -1,10 +1,14 @@
 import { APIGatewayProxyEvent, APIGatewayProxyEventV2, Context } from "aws-lambda";
 import LambdaApi from "lambda-api";
 
-const api = LambdaApi()
+const api = LambdaApi();
 
 api.get("/test", () => {
   return { status: "ok " };
+});
+
+api.get("/poop", () => {
+  return { status: "poop " };
 });
 
 api.get("/health", () => {

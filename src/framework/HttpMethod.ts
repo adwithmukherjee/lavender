@@ -1,4 +1,4 @@
-module.exports = {
+const HttpMethod = {
     DELETE: "delete",
     GET: "get",
     HEAD: "head",
@@ -7,3 +7,5 @@ module.exports = {
     PUT: "put",
     TRACE: "trace",
 };
+
+export default HttpMethod
