@@ -1,29 +1,16 @@
-// const { get: GetHealthRoute } = require("./src/api/health/index.js");
-// const Express = require("express");
-// const serverlessExpress = require("@vendia/serverless-express");
+const api = require("lambda-api")();
 
-// // LAMBDA TESTING
+api.get("/status", () => {
+    return { status: "ok " };
+});
 
-// // const healthRoute = new GetHealthRoute();
-// const app = Express(); 
+api.get("/health", () => {
+    return { status: "healthy" };
+});
 
-// app.get("/", (req, res) => {
-//     console.log(req.body);
-//     return res.status(200).json({ body: "test" });
-// });
-
-// app.get("/health", (req, res) => {
-//     console.log(req.body);
-//     return res.status(200).json({ status: "healthy" });
-// });
-
-const handler = () => {
-    return {
-        statusCode: 200,
-        headers: { "Content-Type": "text/json" },
-        body: JSON.stringify({ message: "Hello from my Lambda node!" }),
-    };
-};
+const handler = async (event, context) => {
+    return await api.run(event, context)
+}
 
 module.exports = {
     handler,
