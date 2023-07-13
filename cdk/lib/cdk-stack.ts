@@ -1,4 +1,4 @@
-const cdk = require("aws-cdk-lib");
+import * as cdk from "aws-cdk-lib"
 const lambda = require("aws-cdk-lib/aws-lambda");
 const { NodejsFunction } = require("aws-cdk-lib/aws-lambda-nodejs");
 const {
@@ -15,11 +15,11 @@ class CdkStack extends cdk.Stack {
    * @param {string} id
    * @param {cdk.StackProps=} props
    */
-    constructor(scope, id, props) {
+    constructor(scope: cdk.App, id: string, props: cdk.StackProps) {
         super(scope, id, props);
 
         const errorLambda = new NodejsFunction(this, "ErrorLambda", {
-            entry: "../src/lambda/error.js",
+            entry: "../src/lambda/error.ts",
             functionName: "errorLambda",
             handler: "handler",
             memorySize: 1024,
@@ -28,7 +28,7 @@ class CdkStack extends cdk.Stack {
         });
 
         const testLambda = new NodejsFunction(this, "TestLambda", {
-            entry: "../src/lambda/index.js",
+            entry: "../src/lambda/index.ts",
             functionName: "testLambda", 
             handler: "handler", 
             memorySize: 1024,
@@ -68,4 +68,4 @@ class CdkStack extends cdk.Stack {
     }
 }
 
-module.exports = { CdkStack };
+export default CdkStack
