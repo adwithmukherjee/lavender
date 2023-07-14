@@ -7,27 +7,27 @@ export class User extends BaseItem {
   followerCount: number;
   followingCount: number;
 
-  constructor(
+  constructor(params: {
     username: string,
     name?: string,
     followerCount?: number,
     followingCount?: number
-  ) {
+  }) {
     super();
-    this.username = username;
-    this.name = name || "";
-    this.followerCount = followerCount || 0;
-    this.followingCount = followingCount || 0;
+    this.username = params.username;
+    this.name = params.name || "";
+    this.followerCount = params.followerCount || 0;
+    this.followingCount = params.followingCount || 0;
   }
 
   static fromItem(item?: DynamoDB.AttributeMap): User {
     if (!item) throw new Error("No item!");
-    return new User(
-      item.username.S,
-      item.name.S,
-      Number(item.followerCount.N),
-      Number(item.followingCount.N)
-    );
+    return new User({
+      username: item.username.S,
+      name: item.name.S,
+      followerCount: Number(item.followerCount.N),
+      followingCount: Number(item.followingCount.N),
+    });
   }
 
   get pk(): string {

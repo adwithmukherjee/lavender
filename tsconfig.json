@@ -6,6 +6,6 @@
         "skipLibCheck": true,
         "outDir": "dist"
     },
-    "include": ["src"],
+    "include": ["src", "framework"],
     "exclude": ["node_modules"]
 }

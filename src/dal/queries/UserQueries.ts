@@ -6,7 +6,7 @@ class UserQueries {
   client: DynamoDB;
 
   constructor() {
-    this.client = getClient()
+    this.client = getClient();
   }
 
   createUser(user: User) {
@@ -17,9 +17,9 @@ class UserQueries {
     })
     .promise()
     .then(() => {
-      return user
-    })
+      return user;
+    });
   }
 }
 
-export default UserQueries
+export default UserQueries;
