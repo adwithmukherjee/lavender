@@ -75,7 +75,7 @@ export default class ApiLambda {
 
   // HANDLER methods
 
-  static apiHandler(controller: Controller) {
+  static handler(controller: Controller) {
     return ApiLambda.registerLambdaApiRoutes(controller.api, controller.routes);
   }
 

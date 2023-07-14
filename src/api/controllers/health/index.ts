@@ -1,9 +1,4 @@
-import { Request } from "lambda-api";
-import Lambda from "../../../../framework/constructs/ApiLambda";
-import Controller from "../../../../framework/lambda/Controller";
-import Response from "../../../../framework/lambda/Response";
-import Route from "../../../../framework/lambda/Route";
-import AuthType from "../../../../framework/utils/AuthType";
+import { ApiLambda, AuthType, Controller, Route, Request, Response } from "@lavender/sls-framework";
 
 export default class HealthController extends Controller {
   get resources() {
@@ -17,7 +12,19 @@ export default class HealthController extends Controller {
         handler: this.health,
         authLevel: AuthType.NONE,
       }),
+      Route.post({
+        path: "/health", 
+        handler: this.postHealth, 
+        authLevel: AuthType.NONE,
+      }),
     ];
+  }
+
+  postHealth(request: Request) {
+    const body = request.body;
+    return Response.ok()
+    .setPayload({ status: "healthy", body })
+    .promise();
   }
 
   health(request: Request) : Promise<Response> {
@@ -30,4 +37,4 @@ export default class HealthController extends Controller {
   }
 }
 
-export const handler = Lambda.apiHandler(new HealthController());
+export const handler = ApiLambda.handler(new HealthController());

@@ -8,7 +8,7 @@ import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 import { ApiGateway } from "aws-cdk-lib/aws-route53-targets";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { CfnOutput } from "aws-cdk-lib";
-import ApiLambdaFactory from "../framework/constructs/ApiLambda";
+import ApiLambda from "@lavender/sls-framework/constructs/ApiLambda";
 
 class CdkStack extends cdk.Stack {
   /**
@@ -41,7 +41,7 @@ class CdkStack extends cdk.Stack {
     });
 
     
-    new ApiLambdaFactory({ stack: this, restApi }).controllerFactory("./src/api/controllers");
+    new ApiLambda({ stack: this, restApi }).controllerFactory("./src/api/controllers");
 
 
     // const dynamoTable = new dynamodb.Table(this, "TestTable", {

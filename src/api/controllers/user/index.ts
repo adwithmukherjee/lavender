@@ -1,9 +1,5 @@
-import { Request } from "lambda-api";
-import Controller from "../../../../framework/lambda/Controller";
-import Route from "../../../../framework/lambda/Route";
-import Response from "../../../../framework/lambda/Response";
-import AuthType from "../../../../framework/utils/AuthType";
-import Lambda from "../../../../framework/constructs/ApiLambda";
+import { ApiLambda, AuthType, Controller, Request, Response, Route } from "@lavender/sls-framework";
+//--------------- end imports ---------------
 
 export default class UserController extends Controller {
   get resources() {
@@ -27,5 +23,5 @@ export default class UserController extends Controller {
   }
 }
 
-export const handler = Lambda.apiHandler(new UserController());
+export const handler = ApiLambda.handler(new UserController());
 

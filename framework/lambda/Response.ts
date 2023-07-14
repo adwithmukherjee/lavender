@@ -1,4 +1,4 @@
-import { StatusCodes } from "http-status-codes";
+import StatusCodes from "./StatusCodes";
 import { Request as LambdaRequest, Response as LambdaResponse } from "lambda-api";
 import _ from "lodash";
 import ContentType from "../utils/ContentType";
