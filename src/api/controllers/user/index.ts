@@ -1,9 +1,13 @@
-import { ApiLambda, AuthType, Controller, Request, Response, Route } from "@lavender/sls-framework";
+import { AuthType, Controller, Request, Response, Route } from "@lavender/sls-framework";
 //--------------- end imports ---------------
 
 export default class UserController extends Controller {
   get resources() {
     return ["user"];
+  }
+
+  get middleware() {
+    return [];
   }
 
   get routes() {
@@ -23,5 +27,5 @@ export default class UserController extends Controller {
   }
 }
 
-export const handler = ApiLambda.handler(new UserController());
+export const handler = Controller.handler(new UserController());
 

@@ -1,8 +1,12 @@
-import { ApiLambda, AuthType, Controller, Route, Request, Response } from "@lavender/sls-framework";
+import { AuthType, Controller, Route, Request, Response } from "@lavender/sls-framework";
 
 export default class HealthController extends Controller {
   get resources() {
     return ["health"];
+  }
+  
+  get middleware() {
+    return [];
   }
 
   get routes() {
@@ -37,4 +41,4 @@ export default class HealthController extends Controller {
   }
 }
 
-export const handler = ApiLambda.handler(new HealthController());
+export const handler = Controller.handler(new HealthController());

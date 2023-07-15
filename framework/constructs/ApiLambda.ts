@@ -5,8 +5,8 @@ import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import fs from "fs";
 import { API, HandlerFunction, Request, Response } from "lambda-api";
 import _ from "lodash";
-import Controller from "../lambda/Controller";
-import Route from "../lambda/Route";
+import Controller from "../api/Controller";
+import Route from "../api/Route";
 import FileUtils from "../utils/FileUtils";
 const path = require("path");
 
@@ -73,25 +73,4 @@ export default class ApiLambda {
     });
   }
 
-  // HANDLER methods
-
-  static handler(controller: Controller) {
-    return ApiLambda.registerLambdaApiRoutes(controller.api, controller.routes);
-  }
-
-
-  private static registerLambdaApiRoutes(api: API, routes: Route[]) {
-    routes.forEach((route) => {
-      const routeHandler: HandlerFunction = (req: Request, res: Response) => {
-        return Promise.resolve()
-        .then(() => route.handler(req))
-        .then((response) => response.send(req, res));
-      };
-      // TODO: handle auth
-      api[route.method](route.path, routeHandler);
-    });
-    return async (event, context) => {
-      return api.run(event, context);
-    };
-  }
 }

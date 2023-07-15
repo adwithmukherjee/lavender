@@ -1,14 +1,7 @@
 {
-    "ts-node": {
-    // these options are overrides used only by ts-node
-    // same as the --compilerOptions flag and the TS_NODE_COMPILER_OPTIONS environment variable
-      "compilerOptions": {
-        "module": "ES2015"
-      }
-    },
     "compilerOptions": {
         "target": "es2016",
-        "module": "CommonJS",
+        "module": "commonjs",
         "moduleResolution": "Node",
         "esModuleInterop": true,
         "skipLibCheck": true,
