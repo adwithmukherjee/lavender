@@ -1,44 +1,15 @@
-import { AuthType, Controller, Route, Request, Response } from "@lavender/sls-framework";
+import { Controller } from "@lavender/sls-framework";
+import HealthController from "./HealthController";
+import container from "../../../container";
+import { Lifetime, asClass } from "awilix";
 
-export default class HealthController extends Controller {
-  get resources() {
-    return ["health"];
-  }
-  
-  get middleware() {
-    return [];
-  }
+container.register({
+  // TODO: rename to entry and export container from here to 
+  // be imported into ApiLambda so ApiLambda accesses controller
+  // from awilix container
+  controller: asClass(HealthController).setLifetime(Lifetime.SINGLETON),
+});
 
-  get routes() {
-    return [
-      Route.get({
-        path: "/health",
-        handler: this.health,
-        authLevel: AuthType.NONE,
-      }),
-      Route.post({
-        path: "/health", 
-        handler: this.postHealth, 
-        authLevel: AuthType.NONE,
-      }),
-    ];
-  }
 
-  postHealth(request: Request) {
-    const body = request.body;
-    return Response.ok()
-    .setPayload({ status: "healthy", body })
-    .promise();
-  }
-
-  health(request: Request) : Promise<Response> {
-    return Promise.resolve()
-    .then(() => 
-      Response
-      .ok()
-      .setPayload({ status: "healthy "})
-    );
-  }
-}
-
-export const handler = Controller.handler(new HealthController());
+export const handler = Controller.handler(container.cradle.controller);
+export default container.cradle.controller;

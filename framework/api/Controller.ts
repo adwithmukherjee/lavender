@@ -9,6 +9,7 @@ abstract class Controller {
   api: API;
 
   constructor() {
+    // INIT API SERVICES HERE
     this.api = LambdaApi();
     this.registerRoutes();
   }
@@ -18,10 +19,6 @@ abstract class Controller {
   abstract get routes(): Route[];
 
   abstract get middleware(): Middleware[];
-
-  registerMiddleware(middleware: Middleware) {
-    this.middleware.push(middleware);
-  }
 
   registerRoutes() {
     this.routes.forEach((route) => {

@@ -24,8 +24,9 @@ export default class ApiLambda {
       if (fs.lstatSync(filePath).isDirectory()) {
         // console.log(path);
         const relativePath = path.relative(__dirname, path.resolve(filePath));
-        const clazz = require(relativePath).default;
-        const instance: Controller = new clazz();
+        const instance = require(relativePath).default;
+        // console.log(clazz);
+        // const instance: Controller = new clazz();
         ApiLambda.buildLambdaConstruct({
           controller: instance,
           filePath: filePath + "/index.ts",

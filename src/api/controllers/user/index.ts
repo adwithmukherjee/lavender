@@ -1,7 +1,8 @@
 import { AuthType, Controller, Request, Response, Route } from "@lavender/sls-framework";
 //--------------- end imports ---------------
 
-export default class UserController extends Controller {
+class UserController extends Controller {
+
   get resources() {
     return ["user"];
   }
@@ -17,6 +18,11 @@ export default class UserController extends Controller {
         handler: this.health,
         authLevel: AuthType.NONE,
       }),
+      Route.post({
+        path: "/user",
+        handler: this.health,
+        authLevel: AuthType.NONE,
+      }),
     ];
   }
 
@@ -26,6 +32,8 @@ export default class UserController extends Controller {
     );
   }
 }
+
+export default new UserController();
 
 export const handler = Controller.handler(new UserController());
 

@@ -1,15 +1,25 @@
+import { API } from "lambda-api";
 
 
+type MiddlewareHandler = () => {
+  handler: (request: Request, response: Response, next: () => void) => void
+}
+
+// assumption, container request and response are registered ahead of time
 export default class Middleware {
   
-  request: Request;
-  response: Response;
-  next: () => void;
+  handler: MiddlewareHandler;
+  
+  constructor({ request, response }) {
+    this.handler = handler;
+  }
 
-  constructor(request, response, next) {
-    request;
-    response;
-    next;
+  register(api: API) {
+    api.use(this.handler);
+  }
+
+  static build(api: API, handler: MiddlewareHandler) {
+    return new Middleware(handler).register(api);
   }
 
 }
