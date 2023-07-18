@@ -1,6 +1,7 @@
 import LambdaApi, { API, HandlerFunction, Request, Response } from "lambda-api";
-import Route from "./Route";
 import Middleware from "./Middleware";
+import Route from "./Route";
+import _ from "lodash";
 
 /**
  * Controllers map 1 to 1 with Lambdas
@@ -27,8 +28,9 @@ abstract class Controller {
         .then(() => route.handler(req))
         .then((response) => response.send(req, res));
       };
-      // TODO: handle auth
-      this.api[route.method](route.path, routeHandler);
+      _.assign([]);
+      const middleware = _.merge([], route.middleware, this.middleware);
+      this.api[route.method](route.path, ...middleware, routeHandler);
     });
   }
 

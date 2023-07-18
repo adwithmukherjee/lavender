@@ -1,10 +1,11 @@
-import { createContainer, asClass } from "awilix";
+import { createContainer, asClass, Lifetime } from "awilix";
 import TestEvent from "./app/TestEvent";
+import UserRepository from "./dal/repositories/User.repo";
 
 const container = createContainer();
 
 container.register({
-  testEvent: asClass(TestEvent),
+  userRepository: asClass(UserRepository).setLifetime(Lifetime.SINGLETON),
 });
 
 

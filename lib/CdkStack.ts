@@ -8,7 +8,7 @@ import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 import { ApiGateway } from "aws-cdk-lib/aws-route53-targets";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { CfnOutput } from "aws-cdk-lib";
-import ApiLambda from "@lavender/sls-framework/constructs/ApiLambda";
+import ApiLambda from "../framework/constructs/ApiLambda";
 
 class CdkStack extends cdk.Stack {
   /**

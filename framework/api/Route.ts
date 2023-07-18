@@ -1,59 +1,69 @@
-import { Request } from "lambda-api";
 import _ from "lodash";
 import AuthType from "../utils/AuthType";
+import Request from "./Request";
 import Response from "./Response";
+import Middleware from "./Middleware";
 //------------------- end imports ---------------------
 
 type RouteProperties = {
   path: string;
   method: string;
   handler: (request: Request) => Promise<Response>;
-  authLevel: AuthType;
-  validator?: (...args) => boolean;
-  version?: string;
+  middleware?: Middleware[]
+  // validator?: (...args) => boolean;
+  // version?: string;
 };
 
 export default class Route {
   path: string;
   method: string;
-  validator: (...args) => boolean;
   handler: (request: Request) => Promise<Response>;
-  authLevel: string;
-  version: string;
+  validator?: (...args) => boolean;
+  middleware?: Middleware[] = [];
+  version?: string;
 
   constructor(params: RouteProperties) {
     _.assign(this, params);
   }
 
-  static get(params: Omit<RouteProperties, "method">) {
+  static get(path: string, handler: (request: Request) => Promise<Response>) {
     return Route.build({
       method: "get",
-      ...params,
+      path,
+      handler,
     });
   }
 
-  static post(params: Omit<RouteProperties, "method">) {
+  static post(path: string, handler: (request: Request) => Promise<Response>) {
     return Route.build({
       method: "post",
-      ...params,
+      path,
+      handler,
     });
   }
 
-  static put(params: Omit<RouteProperties, "method">) {
+  static put(path: string, handler: (request: Request) => Promise<Response>) {
     return Route.build({
       method: "put",
-      ...params,
+      path,
+      handler,
     });
   }
 
-  static delete(params: Omit<RouteProperties, "method">) {
+  static delete(path: string, handler: (request: Request) => Promise<Response>) {
     return Route.build({
       method: "delete",
-      ...params,
+      path,
+      handler,
     });
   }
 
   static build(params: RouteProperties) {
     return new Route(params);
+  }
+
+  use(middleware: Middleware) {
+    this.middleware.push(middleware);
+    return this;
   }
 }

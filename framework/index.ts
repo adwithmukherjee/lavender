@@ -1,5 +1,5 @@
-import ApiLambda from "./constructs/ApiLambda";
 import Controller from "./api/Controller";
+import Middleware from "./api/Middleware";
 import Request from "./api/Request";
 import Response from "./api/Response";
 import Route from "./api/Route";
@@ -11,9 +11,11 @@ import HttpMethod from "./utils/HttpMethod";
 
 
 export {
-  ApiLambda, AuthType,
+  AuthType,
   ContentType, Controller, FileUtils,
-  HttpMethod, Request,
+  HttpMethod, Middleware, Request,
   Response, Route, StatusCodes,
 };
 
+
+export default Controller.handler;
