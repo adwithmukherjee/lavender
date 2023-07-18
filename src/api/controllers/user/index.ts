@@ -17,7 +17,7 @@ class UserController extends Controller {
   }
 
   get middleware() {
-    return [this.warmup, authorize(AuthType.USER)];
+    return [authorize(AuthType.USER), this.warmup];
   }
 
   get routes() {
@@ -33,7 +33,7 @@ class UserController extends Controller {
       const scope = container.createScope();
       req.scope = scope;
       req.scope.register({
-        currentUser: asValue({ user: "adwith" }),
+        currentUser: asValue(req.user),
       });
       next();
     };
