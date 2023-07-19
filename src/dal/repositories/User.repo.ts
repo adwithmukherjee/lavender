@@ -19,4 +19,8 @@ export default class UserRepository {
     this.idCounter += 1;
     return user;
   }
+
+  getUser(id: number) {
+    return { id, user: "testUser" };
+  }
 } 

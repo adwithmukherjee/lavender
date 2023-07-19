@@ -1,42 +1,29 @@
 import authorize from "@/api/middlewares/authorize";
-import container from "@/container";
 import api, {
   AuthType,
-  Controller,
-  Middleware,
   Request,
   Response,
   Route,
 } from "@sls-framework";
-import { asValue } from "awilix";
+import _ from "lodash";
+import BaseController from "../BaseController";
 //--------------- end imports ---------------
 
-class UserController extends Controller {
+class UserController extends BaseController {
   get resources() {
     return ["user"];
   }
 
-  get middleware() {
-    return [authorize(AuthType.USER), this.warmup];
+  get customMiddleware() {
+    return [authorize(AuthType.USER)];
   }
 
   get routes() {
     return [
-      Route.get("/user", this.getUser),
+      Route.get("/user/:userId", this.getUser),
       Route.post("/user", this.createUser),
-      Route.put("/user", this.getUserV2),
+      Route.get("/user/me", this.getUser),
     ];
-  }
-
-  get warmup(): Middleware {
-    return (req, res, next) => {
-      const scope = container.createScope();
-      req.scope = scope;
-      req.scope.register({
-        currentUser: asValue(req.user),
-      });
-      next();
-    };
   }
 
   createUser(request: Request) {
@@ -50,14 +37,14 @@ class UserController extends Controller {
   }
 
   getUser(request: Request): Promise<Response> {
+    const userId = _.toNumber(request.params.userId);
+    const user = request.scope.cradle.getUser.execute(userId);
     return Response.ok()
-      .setPayload({ status: "healthy in user", requestingUser: request.user })
-      .promise();
-  }
-
-  getUserV2(request: Request): Promise<Response> {
-    return Response.ok()
-      .setPayload({ status: "healthy in user 2", currentUser: request.scope.cradle.currentUser})
+      .setPayload({
+        status: "healthy in user",
+        user,
+        currentUser: request.scope.cradle.currentUser,
+      })
       .promise();
   }
 }

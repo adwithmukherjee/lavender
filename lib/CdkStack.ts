@@ -41,31 +41,35 @@ class CdkStack extends cdk.Stack {
     });
 
     
-    new ApiLambda({ stack: this, restApi }).controllerFactory("./src/api/controllers");
+    const api = new ApiLambda({ stack: this, restApi });
+    api.controllerFactory("./src/api/controllers");
 
 
-    // const dynamoTable = new dynamodb.Table(this, "TestTable", {
-    //   tableName: "TestTable",
-    //   partitionKey: { name: "PK", type: dynamodb.AttributeType.STRING },
-    //   sortKey: { name: "SK", type: dynamodb.AttributeType.STRING },
-    //   billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-    //   removalPolicy: cdk.RemovalPolicy.DESTROY,
-    // });
+    const dynamoTable = new dynamodb.Table(this, "LavenderTable", {
+      tableName: "LavenderTable",
+      partitionKey: { name: "PK", type: dynamodb.AttributeType.STRING },
+      sortKey: { name: "SK", type: dynamodb.AttributeType.STRING },
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
 
-    // dynamoTable.addGlobalSecondaryIndex({
-    //   indexName: "GSI1",
-    //   partitionKey: { name: "GSI1PK", type: dynamodb.AttributeType.STRING },
-    //   sortKey: { name: "GSI1SK", type: dynamodb.AttributeType.STRING },
-    //   projectionType: dynamodb.ProjectionType.KEYS_ONLY,
-    // });
+    dynamoTable.addGlobalSecondaryIndex({
+      indexName: "GSI1",
+      partitionKey: { name: "GSI1PK", type: dynamodb.AttributeType.STRING },
+      sortKey: { name: "GSI1SK", type: dynamodb.AttributeType.STRING },
+      projectionType: dynamodb.ProjectionType.KEYS_ONLY,
+    });
 
-    // dynamoTable.grantFullAccess(userLambda);
-    // userLambda.addToRolePolicy(
-    //   new PolicyStatement({
-    //     actions: ["dynamodb:*"],
-    //     resources: [dynamoTable.tableArn],
-    //   })
-    // );
+    api.lambdas.forEach((lambda) => {
+      dynamoTable.grantFullAccess(lambda);
+      lambda.addToRolePolicy(
+        new PolicyStatement({
+          actions: ["dynamodb:*"],
+          resources: [dynamoTable.tableArn],
+        })
+      );
+    });
+
   }
 }
 

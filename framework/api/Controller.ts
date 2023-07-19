@@ -1,6 +1,7 @@
-import LambdaApi, { API, HandlerFunction, Request, Response } from "lambda-api";
+import LambdaApi, { API, HandlerFunction, Request as LambdaRequest, Response as LambdaResponse } from "lambda-api";
 import Middleware from "./Middleware";
 import Route from "./Route";
+import Response from "./Response";
 import _ from "lodash";
 
 /**
@@ -23,13 +24,16 @@ abstract class Controller {
 
   registerRoutes() {
     this.routes.forEach((route) => {
-      const routeHandler: HandlerFunction = (req: Request, res: Response) => {
+      const routeHandler: HandlerFunction = (req: LambdaRequest, res: LambdaResponse) => {
         return Promise.resolve()
-        .then(() => route.handler(req))
-        .then((response) => response.send(req, res));
+          .then(() => route.handler(req))
+          .then((response) => response.send(req, res))
+          .catch((err) => {
+            const response = Response.error(err);
+            return response.send(req, res);
+          });
       };
-      _.assign([]);
-      const middleware = _.merge([], route.middleware, this.middleware);
+      const middleware = _.concat([], route.middleware, this.middleware);
       this.api[route.method](route.path, ...middleware, routeHandler);
     });
   }

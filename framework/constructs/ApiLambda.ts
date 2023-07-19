@@ -13,10 +13,12 @@ const path = require("path");
 export default class ApiLambda {
   stack: Stack;
   restApi?: RestApi;
+  lambdas: NodejsFunction[];
 
   constructor(params: { stack: Stack; restApi?: RestApi }) {
     this.stack = params.stack;
     this.restApi = params.restApi;
+    this.lambdas = [];
   }
 
   controllerFactory(controllersDir: string) {
@@ -27,12 +29,13 @@ export default class ApiLambda {
         const instance = require(relativePath).default;
         // console.log(clazz);
         // const instance: Controller = new clazz();
-        ApiLambda.buildLambdaConstruct({
+        const lambda = ApiLambda.buildLambdaConstruct({
           controller: instance,
           filePath: filePath + "/index.ts",
           stack: this.stack,
           restApi: this.restApi,
         });
+        this.lambdas.push(lambda);
       }
     });
   }
@@ -59,6 +62,7 @@ export default class ApiLambda {
         resources: params.controller.resources,
       });
     }
+    return lambda;
   }
 
   static registerLambdaWithRestApi(params: {
@@ -69,8 +73,12 @@ export default class ApiLambda {
     const lambdaController = new LambdaIntegration(params.lambda);
     _.forEach(params.resources, (resource) => {
       params.restApi.root
-      .addResource(resource)
-      .addMethod("ANY", lambdaController);
+        .addResource(resource)
+        .addMethod("ANY", lambdaController);
+      params.restApi.root
+        .getResource(resource)
+        .addResource("{proxy+}")
+        .addMethod("ANY", lambdaController);
     });
   }
 
